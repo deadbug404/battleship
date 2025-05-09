@@ -1,0 +1,92 @@
+html,body{
+    height: 100%;
+    text-align: center;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#setNameModal{
+    width: 200px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    /* display: none; */
+}
+
+#setNameModal form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+}
+
+#setNameModal form button{
+    width: fit-content;
+    padding: 5px;
+}
+
+#setNameModal form input[type="text"]{
+    padding: 5px;
+}
+
+#gameboard{
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+#gameboardModal{
+    display: none;
+}
+
+#gameboardModal p{
+    margin-bottom: 20px;
+}
+
+#content{
+    display: flex;
+    gap: 10px;
+}
+
+#shipList{
+    text-align: left;
+    margin-top: 10px;
+    border: 1px solid black;
+    height: 265px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#axisButton{
+    width: 140px;
+}
+
+.shipName{
+    width: 100px;
+    display: inline-block;
+}
+
+.row{
+    flex: 1;
+    display: flex;
+}
+
+.column{
+    border: 1px solid black;
+    flex: 1;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

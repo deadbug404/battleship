@@ -5,7 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Battleship</title>
 </head>
-<body>
-    
+<body class="center">
+    <div id="setNameModal" class="center">
+        <form action="" class="center" id="setNameForm">
+            <label for="playerName">Player Name</label>
+            <input type="text" id="playerName" name="playerName">
+            <button id="submit">Confirm</button>
+        </form>
+    </div>
+    <div id="gameboardModal">
+        <p>SET SHIPS</p>
+        <div id="content">
+            <div id="gameboard"></div>
+            <div id="setting">
+                <button id="axisButton" class="x">Axis: X</button>
+                <div id="shipList">
+                    <h2>Ship List</h2>
+                    <br>
+                    <p><span class="shipName">Carrier</span>5</p>
+                    <p><span class="shipName">Battleship</span>4</p>
+                    <p><span class="shipName">Cruiser</span>3</p>
+                    <p><span class="shipName">Submarine</span>3</p>
+                    <p><span class="shipName">Destroyer</span>2</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
 </body>
 </html>
