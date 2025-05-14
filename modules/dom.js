@@ -76,6 +76,10 @@ function getColumnsYAxis(e,currentShip){
     return arr;
 }
 
+function getColumnsXAxis(columns, index, endPoint){
+    return Array.from(columns).slice(index,endPoint+1);
+}
+
 function previewSettingShipsListener(gameboard,player){
     gameboard.addEventListener("mouseover",e=>{
         if(e.target.classList.contains("column")){
@@ -83,20 +87,20 @@ function previewSettingShipsListener(gameboard,player){
             const axis = document.querySelector("#axisButton").className;
             const currentShip = player.shipsAvailable[0];
             const index = Array.from(columns).indexOf(e.target);
+
             if(currentShip !== undefined){
                 columns.forEach(column=>{
                     if(!isColumnOccupied(column)){
                         column.style.backgroundColor = "white"
                     }
                 });
+
                 if(axis == "x"){
                     const endPoint = index+currentShip.length-1;
                     if(columns[endPoint] !== undefined && columns[index].parentNode === columns[endPoint].parentNode){
-                        let columnsArr = Array.from(columns).slice(index,endPoint+1);
+                        let columnsArr = getColumnsXAxis(columns, index, endPoint);
                         if(isColumnStreamValid(columnsArr)){
-                            for(let i = index; i < index+currentShip.length;i++){
-                                columns[i].style.backgroundColor = "yellow";
-                            }
+                            columnsArr.forEach(column => column.style.backgroundColor = "yellow");
                         }
                     }
                 }else{
@@ -133,11 +137,13 @@ function setPlaceListener(gameboard,player){
             const axis = document.querySelector("#axisButton").className;
             let startCoordinate = e.target.id;
             let columnsArr;
+
             if(axis == "x"){
-                columnsArr = Array.from(columns).slice(index,endPoint+1);
+                columnsArr = getColumnsXAxis(columns, index, endPoint);
             }else{
                 columnsArr = getColumnsYAxis(e,currentShip);
             }
+            
             try{
                 if(isColumnStreamValid(columnsArr)){
                     gameboard.place(startCoordinate,currentShip,axis);

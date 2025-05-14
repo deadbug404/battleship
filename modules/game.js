@@ -28,23 +28,15 @@ class Game{
         let playerComputer = new Player("Computer","computer",gameboardComputer,this.createShips());
         this.playerHuman = playerHuman;
         this.playerComputer = playerComputer;
-        
-        console.log(this.playerHuman);
-        console.log(this.playerComputer);
-    }
-
-    getAxis(){
-        const axis = document.querySelector("#axisButton");
-        return axis.className;
     }
 
     setShips(){
         let player = this.playerHuman;
         let gameboardObj = this.playerHuman.gameboard;
-        let gameboard = document.querySelector("#gameboard");
+        let gameboardDiv = document.querySelector("#gameboard");
         previewGameBoard(player);
         setAxisListener();
-        previewSettingShipsListener(gameboard,player);
+        previewSettingShipsListener(gameboardDiv,player);
         setPlaceListener(gameboardObj,player);
     }
 }
