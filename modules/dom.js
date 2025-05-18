@@ -21,32 +21,13 @@ function selectColor(ship){
     }
 }
 
-function previewGameBoard(player){
-    let board = player.gameboard.board;
-    let gameboard = document.querySelector("#gameboard");
-    let gameboardModal = document.querySelector("#gameboardModal");
-    gameboardModal.style.display = "block";
-    for(let i =0;i<10;i++){
-        let row = document.createElement("div");
-        row.classList.add("row")
-        for(let j =0;j<10;j++){
-            let column = document.createElement("div");
-            column.classList.add("column");
-            column.id = `${[i]}${[j]}`;
-            let ship = board[i][j];
-            if(ship){
-                column.classList.add("occupied");
-            }
-            column.style.backgroundColor = selectColor(ship);
-            row.appendChild(column);
-        }
-        gameboard.appendChild(row);
+function isShipUndefined(ship){
+    if(ship === undefined){
+        let confirmButton = document.querySelector("#confirmButton");
+        confirmButton.style.display = "block";
+        return true
     }
-}
-
-function resetGameBoard(){
-    let gameboard = document.querySelector("#gameboard");
-    gameboard.textContent = "";
+    return false
 }
 
 function isColumnOccupied(column){
@@ -80,7 +61,41 @@ function getColumnsXAxis(columns, index, endPoint){
     return Array.from(columns).slice(index,endPoint+1);
 }
 
-function previewSettingShipsListener(gameboard,player){
+function previewGameBoard(player,gameboard,gameboardModal,ingame=false){
+    let board = player.gameboard.board;
+    gameboardModal.style.display = "flex";
+    for(let i =0;i<10;i++){
+        let row = document.createElement("div");
+        row.classList.add("row")
+        for(let j =0;j<10;j++){
+            let column = document.createElement("div");
+            column.classList.add("column");
+            column.id = `${[i]}${[j]}`;
+            let ship = board[i][j];
+            if(ship){
+                column.classList.add("occupied");
+            }
+            // ingame ? column.style.backgroundColor = "white" : column.style.backgroundColor = selectColor(ship);
+            column.style.backgroundColor = selectColor(ship)
+            row.appendChild(column);
+        }
+        gameboard.appendChild(row);
+    }
+
+}
+
+function refreshGameBoard(gameboard, player){
+    let gameboardDiv = document.querySelector("#gameboard");
+    gameboardDiv.textContent = "";
+    let gameboardModal = document.querySelector("#gameboardModal");
+
+    previewGameBoard(player,gameboardDiv,gameboardModal);
+    if(!isShipUndefined(player.shipsAvailable[0])){
+        setPlaceListener(gameboard,player);
+    }
+}
+
+function previewShipsListener(gameboard,player){
     gameboard.addEventListener("mouseover",e=>{
         if(e.target.classList.contains("column")){
             const columns = document.querySelectorAll(".column");
@@ -143,21 +158,42 @@ function setPlaceListener(gameboard,player){
             }else{
                 columnsArr = getColumnsYAxis(e,currentShip);
             }
-            
+
             try{
                 if(isColumnStreamValid(columnsArr)){
                     gameboard.place(startCoordinate,currentShip,axis);
-                    console.log(gameboard);
                     player.shipsAvailable.shift();
-                    resetGameBoard();
-                    previewGameBoard(player);
-                    setPlaceListener(gameboard,player);
+                    refreshGameBoard(gameboard, player);
                 }
             }catch(e){
-                console.log("all ships have been set!")
+                console.log(`${e}`);
             }
         })
     })
 }
 
-export {getName, previewGameBoard, previewSettingShipsListener, setAxisListener, setPlaceListener}
+function setAttackListener(gameboard){
+    const columns = document.querySelectorAll(".column");
+    columns.forEach(column => {
+        column.addEventListener("click", e => {
+            let coordinate = e.target.id;
+            gameboard.receiveAttack(coordinate);
+            console.log(gameboard);
+        })
+    })
+}
+
+function showCurrentGameBoards(player,computer){
+    let gameboardModal = document.querySelector("#gameboardModal");
+    gameboardModal.style.display = "none";
+    let mainGameModal = document.querySelector("#mainGameModal");
+
+    let playerGameboardDiv = document.querySelector("#playerGameboardDiv");
+    let computerGameboardDiv = document.querySelector("#computerGameboardDiv");
+
+    previewGameBoard(player,playerGameboardDiv,mainGameModal,true);
+    previewGameBoard(computer,computerGameboardDiv,mainGameModal,true);
+    setAttackListener(player.gameboard);
+}
+
+export {getName, previewShipsListener, setAxisListener, refreshGameBoard, showCurrentGameBoards}

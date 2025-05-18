@@ -1,4 +1,4 @@
-import { getName, previewGameBoard, previewSettingShipsListener, setAxisListener, setPlaceListener} from "../modules/dom";
+import { getName, previewShipsListener, refreshGameBoard, setAxisListener, showCurrentGameBoards} from "../modules/dom";
 import { Player } from "../modules/player";
 import { Gameboard } from "../modules/gameboard";
 import { Ship } from "./ship";
@@ -30,14 +30,65 @@ class Game{
         this.playerComputer = playerComputer;
     }
 
+    getValidStartingCoordinate(coordinate,shipLength,axis){
+        let board = this.playerComputer.gameboard.board;
+        while(1){
+            let row = parseInt(coordinate[Math.floor(Math.random() * coordinate.length)]);
+            let col = parseInt(coordinate[Math.floor(Math.random() * coordinate.length)]);
+            let columns = [];
+
+            for(let i = 0; i < shipLength;i++){
+                let colValue;
+                if(axis == "x"){
+                    try{
+                        colValue = board[row][col+i];
+                    }catch(e){
+                        colValue = undefined;
+                    }
+                }else{
+                    try{
+                        colValue = board[row+i][col];
+                    }catch(e){
+                        colValue = undefined;
+                    }
+                    
+                }
+                columns.push(colValue);
+            }
+            //check if index is out of bounds or is already occupied
+            if(columns.includes(undefined) || columns.some(value => {return typeof value == "object"})){continue}
+            
+            return `${row}${col}`;
+        }
+
+    }
+
+    setShipsComputer(){
+        let axis = ["x","y"];
+        let coordinates = "0123456789";
+        let gameboardObj = this.playerComputer.gameboard;
+
+        while(this.playerComputer.shipsAvailable[0] !== undefined){
+            let currentShip = this.playerComputer.shipsAvailable[0];
+            let randomAxis = axis[Math.floor(Math.random() * axis.length)];
+            let validStartingCoordinate = this.getValidStartingCoordinate(coordinates,currentShip.length,randomAxis);
+            gameboardObj.place(validStartingCoordinate,currentShip,randomAxis);
+            this.playerComputer.shipsAvailable.shift();
+        }
+        console.log(gameboardObj);
+    }
+
     setShips(){
         let player = this.playerHuman;
         let gameboardObj = this.playerHuman.gameboard;
         let gameboardDiv = document.querySelector("#gameboard");
-        previewGameBoard(player);
         setAxisListener();
-        previewSettingShipsListener(gameboardDiv,player);
-        setPlaceListener(gameboardObj,player);
+        previewShipsListener(gameboardDiv,player);
+        refreshGameBoard(gameboardObj,player);
+    }
+
+    start(){
+        showCurrentGameBoards(this.playerHuman,this.playerComputer);
     }
 }
 
