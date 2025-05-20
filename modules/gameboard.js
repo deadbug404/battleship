@@ -34,6 +34,7 @@ class Gameboard{
         let row = parseInt(coordinate[0]);
         let col = parseInt(coordinate[1]);
         let target = this.board[row][col];
+        if(target == "hit" || target == "miss"){return}
         if(target != ""){
             target.hit(); 
             this.board[row][col] = "hit";

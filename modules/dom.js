@@ -36,11 +36,14 @@ function isColumnOccupied(column){
     }
 }
 
-function isColumnStreamValid(columns){
+function isColumnStreamValid(columns,axis,validXAxis){
     for(let i = 0; i < columns.length;i++){
         if(columns[i] == undefined || columns[i].className.includes("occupied")){
             return false
         }
+    }
+    if(axis === "x" && validXAxis === false){
+        return false
     }
     return true
 }
@@ -63,6 +66,7 @@ function getColumnsXAxis(columns, index, endPoint){
 
 function previewGameBoard(player,gameboard,gameboardModal,ingame=false){
     let board = player.gameboard.board;
+    gameboard.textContent = "";
     gameboardModal.style.display = "flex";
     for(let i =0;i<10;i++){
         let row = document.createElement("div");
@@ -75,8 +79,9 @@ function previewGameBoard(player,gameboard,gameboardModal,ingame=false){
             if(ship){
                 column.classList.add("occupied");
             }
-            // ingame ? column.style.backgroundColor = "white" : column.style.backgroundColor = selectColor(ship);
-            column.style.backgroundColor = selectColor(ship)
+            if(ship == "hit"){column.textContent = "o"}
+            if(ship == "miss"){column.textContent = "x"}
+            ingame ? column.style.backgroundColor = "white" : column.style.backgroundColor = selectColor(ship);
             row.appendChild(column);
         }
         gameboard.appendChild(row);
@@ -150,17 +155,20 @@ function setPlaceListener(gameboard,player){
             const index = Array.from(columns).indexOf(e.target);
             const endPoint = index+currentShip.length-1;
             const axis = document.querySelector("#axisButton").className;
+            let validXAxis;
             let startCoordinate = e.target.id;
             let columnsArr;
+            
 
             if(axis == "x"){
                 columnsArr = getColumnsXAxis(columns, index, endPoint);
+                validXAxis = columns[index].parentNode === columns[endPoint].parentNode;
             }else{
                 columnsArr = getColumnsYAxis(e,currentShip);
             }
 
             try{
-                if(isColumnStreamValid(columnsArr)){
+                if(isColumnStreamValid(columnsArr,axis,validXAxis)){
                     gameboard.place(startCoordinate,currentShip,axis);
                     player.shipsAvailable.shift();
                     refreshGameBoard(gameboard, player);
@@ -172,28 +180,62 @@ function setPlaceListener(gameboard,player){
     })
 }
 
-function setAttackListener(gameboard){
-    const columns = document.querySelectorAll(".column");
-    columns.forEach(column => {
-        column.addEventListener("click", e => {
-            let coordinate = e.target.id;
-            gameboard.receiveAttack(coordinate);
-            console.log(gameboard);
-        })
+function selectRandomCoordinate(player){
+    let coordinates = "0123456789";
+    let randomCoordinate = "";
+
+    while(randomCoordinate == ""){
+        let row = parseInt(coordinates[Math.floor(Math.random() * coordinates.length)]);
+        let col = parseInt(coordinates[Math.floor(Math.random() * coordinates.length)]);
+        let value = player.gameboard.board[row][col];
+        console.log(value);
+        if(value !== "hit" && value !== "miss"){randomCoordinate = `${row}${col}`}else{console.log(`${row}${col}`)};
+    }
+
+    return randomCoordinate;
+}
+
+function setAttackListener(computer, player,mainGameModal){
+    let computerBoard = computer.gameboard;
+    let playerBoard = player.gameboard;
+    const computerBoardDiv = document.querySelector("#computerGameBoardDiv");
+    const playerBoardDiv = document.querySelector("#playerGameBoardDiv");
+
+    computerBoardDiv.addEventListener("click",function(e){
+        if(e.target.classList.contains("column") && e.target.textContent !== "x" && e.target.textContent !== "o"){
+            computerBoard.receiveAttack(e.target.id);
+            if(computerBoard.areAllSunk()){winScreen(player);return}
+            computerBoardDiv.textContent = "";
+            previewGameBoard(computer, computerBoardDiv, mainGameModal, true);
+            let randomCoordinate = selectRandomCoordinate(player)
+            playerBoard.receiveAttack(randomCoordinate);
+            if(playerBoard.areAllSunk()){winScreen(computer);return}
+            playerBoardDiv.textContent = "";
+            previewGameBoard(player, playerBoardDiv, mainGameModal, true);
+        }
     })
 }
 
+function winScreen(player){
+    const mainGameModal = document.querySelector("#mainGameModal");
+    mainGameModal.style.display = "none";
+
+    let winScreen = document.querySelector("#winScreen");
+    winScreen.textContent = `${player.name} Win`;
+    winScreen.style.display = "flex";
+}
+
 function showCurrentGameBoards(player,computer){
-    let gameboardModal = document.querySelector("#gameboardModal");
+    const gameboardModal = document.querySelector("#gameboardModal");
     gameboardModal.style.display = "none";
     let mainGameModal = document.querySelector("#mainGameModal");
 
-    let playerGameboardDiv = document.querySelector("#playerGameboardDiv");
-    let computerGameboardDiv = document.querySelector("#computerGameboardDiv");
+    let playerGameboardDiv = document.querySelector("#playerGameBoardDiv");
+    let computerGameboardDiv = document.querySelector("#computerGameBoardDiv");
 
     previewGameBoard(player,playerGameboardDiv,mainGameModal,true);
     previewGameBoard(computer,computerGameboardDiv,mainGameModal,true);
-    setAttackListener(player.gameboard);
+    setAttackListener(computer,player,mainGameModal);
 }
 
 export {getName, previewShipsListener, setAxisListener, refreshGameBoard, showCurrentGameBoards}

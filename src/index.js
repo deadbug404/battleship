@@ -1,9 +1,13 @@
 import "../styles/index.css";
+import Parallax from "parallax-js";
 import { Game } from "../modules/game";
 
-let setNameForm = document.querySelector("#setNameForm");
-let setNameModal = document.querySelector("#setNameModal");
-let confirmButton = document.querySelector("#confirmButton");
+const setNameForm = document.querySelector("#setNameForm");
+const setNameModal = document.querySelector("#setNameModal");
+const confirmButton = document.querySelector("#confirmButton");
+
+const scene = document.getElementById('scene');
+let parallaxInstance = new Parallax(scene);
 
 setNameForm.addEventListener("submit",(e)=>{
     e.preventDefault();
@@ -15,8 +19,7 @@ setNameForm.addEventListener("submit",(e)=>{
     confirmButton.addEventListener("click", e => gameObject.start());
 })
 
-//optimize code
-//in game features
+//isColumnStreamValid x axis bug
 
 
 
