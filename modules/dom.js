@@ -1,6 +1,11 @@
 function getName(e){
     e.preventDefault();
     let playerName = document.querySelector("#playerName");
+    let names = document.querySelectorAll(".name");
+    names.forEach(name => {
+        let changedName = playerName.value.replace(/ /g, "_") + "@server:~$ ";
+        name.textContent = changedName;
+    })
     return playerName.value;
 }
 
@@ -9,7 +14,7 @@ function selectColor(ship){
         case "Carrier":
             return "red";
         case "Battleship":
-            return "green";
+            return "pink";
         case "Cruiser":
             return "yellow";
         case "Submarine":
@@ -17,14 +22,14 @@ function selectColor(ship){
         case "Destroyer":
             return "blue";
         default:
-            return "white";
+            return "black";
     }
 }
 
 function isShipUndefined(ship){
     if(ship === undefined){
         let confirmButton = document.querySelector("#confirmButton");
-        confirmButton.style.display = "block";
+        confirmButton.disabled = false;
         return true
     }
     return false
@@ -81,7 +86,7 @@ function previewGameBoard(player,gameboard,gameboardModal,ingame=false){
             }
             if(ship == "hit"){column.textContent = "o"}
             if(ship == "miss"){column.textContent = "x"}
-            ingame ? column.style.backgroundColor = "white" : column.style.backgroundColor = selectColor(ship);
+            ingame ? column.style.backgroundColor = "black" : column.style.backgroundColor = selectColor(ship);
             row.appendChild(column);
         }
         gameboard.appendChild(row);
@@ -111,7 +116,7 @@ function previewShipsListener(gameboard,player){
             if(currentShip !== undefined){
                 columns.forEach(column=>{
                     if(!isColumnOccupied(column)){
-                        column.style.backgroundColor = "white"
+                        column.style.backgroundColor = "black"
                     }
                 });
 
@@ -120,13 +125,13 @@ function previewShipsListener(gameboard,player){
                     if(columns[endPoint] !== undefined && columns[index].parentNode === columns[endPoint].parentNode){
                         let columnsArr = getColumnsXAxis(columns, index, endPoint);
                         if(isColumnStreamValid(columnsArr)){
-                            columnsArr.forEach(column => column.style.backgroundColor = "yellow");
+                            columnsArr.forEach(column => column.style.backgroundColor = selectColor(currentShip));
                         }
                     }
                 }else{
                     let columnsArr = getColumnsYAxis(e,currentShip);
                     if(isColumnStreamValid(columnsArr)){
-                        columnsArr.forEach(column => column.style.backgroundColor = "yellow");
+                        columnsArr.forEach(column => column.style.backgroundColor = selectColor(currentShip));
                     }
                 }
             }
@@ -139,10 +144,10 @@ function setAxisListener(){
     axisButton.addEventListener("click",e=>{
         if(e.target.className == "x"){
             e.target.className = "y";
-            e.target.textContent = "Axis: Y";
+            e.target.textContent = "AXIS: Y";
         }else{
             e.target.className = "x";
-            e.target.textContent = "Axis: X";
+            e.target.textContent = "AXIS: X";
         }
     })
 }

@@ -12,25 +12,30 @@
     <div id="setNameModal" class="center">
         <form action="" class="center" id="setNameForm">
             <h1>CONSENT FORM</h1>
-            <p>I <input type="text" id="playerName" name="playerName"> the undersigned, hereby acknowledge and consent to deployment into active naval warfare operations. I understand the nature of the mission, the associated risks, and affirm my readiness to serve as assigned.</p>
+            <p>I <input type="text" id="playerName" name="playerName" placeholder="username"> the undersigned, hereby acknowledge and consent to deployment into active naval warfare operations. I understand the nature of the mission, the associated risks, and affirm my readiness to serve as assigned.</p>
             <button id="submit">I Agree</button>
         </form>
     </div>
     <div id="gameboardModal">
         <div id="content">
+            <div class="glass"></div>
             <div id="gameboard"></div>
             <div id="setting">
-                <button id="axisButton" class="x">Axis: X</button>
+                <button id="axisButton" class="x">AXIS: X</button>
                 <div id="shipList">
-                    <h2>Ship List</h2>
+                    <h2>Set Your Ships</h2>
                     <br>
-                    <p><span class="shipName">Carrier</span>5</p>
-                    <p><span class="shipName">Battleship</span>4</p>
-                    <p><span class="shipName">Cruiser</span>3</p>
-                    <p><span class="shipName">Submarine</span>3</p>
-                    <p><span class="shipName">Destroyer</span>2</p>
+                    <p><span class="name"></span>Carrier, 5, Red</p>
+                    <p><span class="name"></span>Battleship, 4, Pink</p>
+                    <p><span class="name"></span>Cruiser, 3, Yellow</p>
+                    <p><span class="name"></span>Submarine, 3, Orange</p>
+                    <p><span class="name"></span>Destroyer, 2, Blue</p>
                 </div>
-                <button id="confirmButton">Confirm</button>
+                <button id="confirmButton" class="button-82-pushable" disabled>
+                    <span class="button-82-shadow"></span>
+                    <span class="button-82-edge"></span>
+                    <span class="button-82-front text">CONFIRM</span>
+                </button>
             </div>
         </div>
         
