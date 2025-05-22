@@ -208,12 +208,12 @@ function setAttackListener(computer, player,mainGameModal){
 
     computerBoardDiv.addEventListener("click",function(e){
         if(e.target.classList.contains("column") && e.target.textContent !== "x" && e.target.textContent !== "o"){
-            computerBoard.receiveAttack(e.target.id);
+            computerBoard.receiveAttack(computer,e.target.id);
             if(computerBoard.areAllSunk()){winScreen(player);return}
             computerBoardDiv.textContent = "";
             previewGameBoard(computer, computerBoardDiv, mainGameModal, true);
             let randomCoordinate = selectRandomCoordinate(player)
-            playerBoard.receiveAttack(randomCoordinate);
+            playerBoard.receiveAttack(player,randomCoordinate);
             if(playerBoard.areAllSunk()){winScreen(computer);return}
             playerBoardDiv.textContent = "";
             previewGameBoard(player, playerBoardDiv, mainGameModal, true);
@@ -226,7 +226,12 @@ function winScreen(player){
     mainGameModal.style.display = "none";
 
     let winScreen = document.querySelector("#winScreen");
-    winScreen.textContent = `${player.name} Win`;
+    if(player.name != "computer"){
+        winScreen.textContent = "Victorious!";
+    }else{
+        winScreen.textContent = `Defeat`;
+    }
+    
     winScreen.style.display = "flex";
 }
 

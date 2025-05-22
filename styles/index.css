@@ -8,9 +8,12 @@
 
 html,body{
     height: 100%;
+    width: 100%;
     text-align: center;
     background-size: cover;
+    background-repeat: no-repeat;
     font-family: 'Courier New', Courier, monospace;
+    background-image: url("../images/background-image.jpg");
 }
 
 *{
@@ -19,28 +22,12 @@ html,body{
     box-sizing: border-box;
 }
 
-#scene{
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-    background-color: black;
-    position: absolute;
-    overflow: hidden;
-}
-
-#background-image{
-    background-image: url("../images/background-image.jpg");
-    background-size: cover;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
 #setNameModal{
-    width: 70%;
-    padding: 5px;
+    width: 50%;
+    padding: 10px;
     border-radius: 0px;
     font-family:'1942_report1942_report','Courier New', Courier, monospace;
+    text-align: left;
     border-radius: 20px;
     background-color: white;
     box-shadow: 7px 9px 13px -3px rgba(0,0,0,0.74);
@@ -77,11 +64,18 @@ html,body{
 #gameboard,
 #playerGameBoardDiv,
 #computerGameBoardDiv{
-    width: 420px;
-    height: 420px;
+    width: 300px;
+    height: 300px;
     display: flex;
     flex-direction: column;
-    border: 1px solid green;
+    padding: 10px;
+    background-color: black;
+    border-radius: 5px;
+}
+
+#gameboard{
+    width: 419px;
+    height: 419px;
 }
 
 #gameboardModal{
@@ -102,16 +96,11 @@ html,body{
 
 #shipList{
     text-align: left;
-    font-family: monospace;
     margin-top: 10px;
-    border: 1px solid green;
     color: white;
     height: 300px;
     padding: 10px;
     border-radius: 5px;
-    -webkit-box-shadow: inset 8px 8px 24px 0px rgba(11, 75, 1, 1);
-    -moz-box-shadow: inset 8px 8px 24px 0px rgba(11, 75, 1, 1);
-    box-shadow: inset 8px 8px 24px 0px rgba(11, 75, 1, 1);
 }
 
 #shipList h2{
@@ -120,7 +109,7 @@ html,body{
 }
 
 #axisButton{
-    width: 250px;
+    width: 280px;
     padding: 5px;
     margin-bottom: 10px;
     font-family:'Courier New', Courier, monospace;
@@ -128,15 +117,41 @@ html,body{
 
 #mainGameModal{
     display: none;
-    gap: 30px;
+    gap: 10px;
+    color: white;
+    background-color: rgb(58, 56, 56);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #winScreen{
     width: 300px;
     height: 100px;
     border-radius: 10px;
-    border: 1px solid black;
+    color: white;
     display: none;
+    background-color: black;
+}
+
+#inGameScreen{
+    width: 280px;
+    height: 300px;
+    overflow: scroll;
+    white-space: pre;
+    padding: 10px;
+    text-align: left;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.consoleEffect{
+    background-color: black;
+    font-family: monospace;
+    border: 1px solid green;
+    color: white;
+    -webkit-box-shadow: inset 8px 8px 24px 0px rgba(11, 75, 1, 1);
+    -moz-box-shadow: inset 8px 8px 24px 0px rgba(11, 75, 1, 1);
+    box-shadow: inset 8px 8px 24px 0px rgba(11, 75, 1, 1);
 }
 
 .name{
@@ -166,17 +181,26 @@ html,body{
     border: 1px solid lightgreen;
     background-color: black;
     flex: 1;
-    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
 }
 
 .center{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
+#bodyInGame{
+    justify-content: unset;
+}
+
+
 .button-82-pushable {
-    width: 250px;
+    width: 280px;
     margin-top: 20px;
     position: relative;
     border: none;
@@ -282,4 +306,39 @@ html,body{
 
 button:hover{
     cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+    html,body{
+        overflow: auto;
+        height: unset;
+        padding: 30px 0;
+    }
+    #gameboardModal{    
+        width: 320px;
+    }
+    #content{
+        flex-direction: column;
+    }
+    #gameboard{
+        width: 300px;
+        height: 300px;
+    }
+    #shipList{
+        display: none;
+    }
+    #mainGameModal{
+        flex-direction: column;
+    }
+    #playerGameBoardDiv,
+    #computerGameBoardDiv{
+        width: 250px;
+        height: 250px;
+    }
+    #inGameScreen{
+        height: 150px;
+    }
+    .glass{
+        display: none;
+    }
 }

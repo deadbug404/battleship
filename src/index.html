@@ -6,9 +6,6 @@
     <title>Battleship</title>
 </head>
 <body class="center">
-    <div id="scene">
-        <div data-depth="0.2" id="background-image"></div>
-    </div>
     <div id="setNameModal" class="center">
         <form action="" class="center" id="setNameForm">
             <h1>CONSENT FORM</h1>
@@ -22,7 +19,7 @@
             <div id="gameboard"></div>
             <div id="setting">
                 <button id="axisButton" class="x">AXIS: X</button>
-                <div id="shipList">
+                <div id="shipList" class="consoleEffect">
                     <h2>Set Your Ships</h2>
                     <br>
                     <p><span class="name"></span>Carrier, 5, Red</p>
@@ -41,8 +38,18 @@
         
     </div>
     <div id="mainGameModal">
-        <div id="playerGameBoardDiv"></div>
-        <div id="computerGameBoardDiv"></div>
+        <div class="center">
+            <h3>Player Radar</h3>
+            <div id="playerGameBoardDiv"></div>
+        </div>
+        <div class="center">
+            <h3>Computer Radar</h3>
+            <div id="computerGameBoardDiv"></div>
+        </div>
+        <div class="center">
+            <h3>Live Feedback</h3>
+            <div id="inGameScreen" class="consoleEffect"></div>
+        </div>
     </div>
     <div id="winScreen" class="center">
     </div>

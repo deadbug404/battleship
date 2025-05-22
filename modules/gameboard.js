@@ -30,15 +30,20 @@ class Gameboard{
         }
     }
 
-    receiveAttack(coordinate){
+    receiveAttack(enemy,coordinate){
+        let inGameScreen = document.querySelector("#inGameScreen");
+
         let row = parseInt(coordinate[0]);
         let col = parseInt(coordinate[1]);
         let target = this.board[row][col];
         if(target == "hit" || target == "miss"){return}
         if(target != ""){
             target.hit(); 
+            inGameScreen.textContent += `${enemy.name}s ${target.name} has been hit! \r\n`;
             this.board[row][col] = "hit";
+
         }else{
+            inGameScreen.textContent += `the attack missed on ${enemy.name} \r\n`;
             this.board[row][col] = "miss";
         }
     }
