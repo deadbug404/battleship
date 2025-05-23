@@ -10,10 +10,8 @@ html,body{
     height: 100%;
     width: 100%;
     text-align: center;
-    background-size: cover;
-    background-repeat: no-repeat;
     font-family: 'Courier New', Courier, monospace;
-    background-image: url("../images/background-image.jpg");
+    background-color: #070047;
 }
 
 *{
@@ -29,6 +27,7 @@ html,body{
     font-family:'1942_report1942_report','Courier New', Courier, monospace;
     text-align: left;
     border-radius: 20px;
+    border: 3px solid black;
     background-color: white;
     box-shadow: 7px 9px 13px -3px rgba(0,0,0,0.74);
     -webkit-box-shadow: 7px 9px 13px -3px rgba(0,0,0,0.74);
@@ -83,6 +82,7 @@ html,body{
     background-color: black;
     padding: 10px;
     border-radius: 10px;
+    border: 3px solid white;
 }
 
 #gameboardModal p{
@@ -122,15 +122,15 @@ html,body{
     background-color: rgb(58, 56, 56);
     padding: 10px;
     border-radius: 10px;
+    border: 3px solid white;
 }
 
 #winScreen{
-    width: 300px;
-    height: 100px;
-    border-radius: 10px;
+    width: 80%;
+    height: 80%;
+    font-size: 10vw;
     color: white;
     display: none;
-    background-color: black;
 }
 
 #inGameScreen{
@@ -262,6 +262,10 @@ html,body{
         cubic-bezier(.3, .7, .4, 1);
 }
 
+h1{
+    text-align: center;
+}
+
 @media (min-width: 768px) {
     .button-82-front {
         font-size: 1.25rem;
@@ -302,16 +306,16 @@ html,body{
 
 .button-82-pushable:focus:not(:focus-visible) {
     outline: none;
-    }
+}
+
+
 
 button:hover{
     cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {
-    html,body{
-        overflow: auto;
-        height: unset;
+    body{
         padding: 30px 0;
     }
     #gameboardModal{    
@@ -332,11 +336,11 @@ button:hover{
     }
     #playerGameBoardDiv,
     #computerGameBoardDiv{
-        width: 250px;
-        height: 250px;
+        width: 200px;
+        height: 200px;
     }
     #inGameScreen{
-        height: 150px;
+        height: 100px;
     }
     .glass{
         display: none;
